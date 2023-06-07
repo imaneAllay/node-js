@@ -41,14 +41,23 @@ app.get('/message', cors(corsOptions), async (req, res) => {
    app.post('/car/', cors(corsOptions), async (req, res) => {
     const { model, make, color, price } = req.body;
     let result = await con.query(
-        'INSERT INTO car (model, make, color, price) VALUES ("Corolla", "Toyota", "Gray", "30000")'
-        
+        'INSERT INTO car (model, make, color, price) VALUES ("?", "?", "?", "?")',[model, make, color, price]
       );
     console.log(result[0])
     res.send(result[0])
     
    })
 
+   // EX5 I can change any value by searchin the id in the url
+   app.put('/car/:id', cors(corsOptions), async (req, res) => {
+    const { id} = req.params
+    const { model, make, color, price } = req.body;
+    let result = await con.query(
+        'UPDATE car SET model = ?, make = ?, color = ?, price = ? WHERE car_id = ?',[model, make, color, price,id]);
+    console.log(result[0])
+    res.send(result[0])
+    
+   })
 
 
 app.listen(PORT, () => {
