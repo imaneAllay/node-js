@@ -1,6 +1,9 @@
 const cors = require('cors')
 const express = require('express')
-const { body, check, param, validationResult } = require('express-validator')
+const { body, check, param, validationResult } = require('express-validator');
+const { result } = require('lodash');
+const con= require('./sql.js').con
+
 
 const PORT = 80
 const app = express()
@@ -13,11 +16,21 @@ app.use(express.urlencoded({extended: true}))
 
 // Your endpoints here..
 
+
 app.get('/message', cors(corsOptions), async (req, res) => {
     res.send({message: 'Hello World!!!'})
    })
+
+   app.get('/car', cors(corsOptions), async (req, res) => {
+    let result = await con.query('SELECT * FROM car  where car_id=6')
+    console.log(result[0])
+    res.send(result[0])
+    
+   })
+
 
 
 app.listen(PORT, () => {
     console.log(`Express web API running on port: ${PORT}.`)
 })
+
