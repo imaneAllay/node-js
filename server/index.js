@@ -20,9 +20,30 @@ app.use(express.urlencoded({extended: true}))
 app.get('/message', cors(corsOptions), async (req, res) => {
     res.send({message: 'Hello World!!!'})
    })
+// get car
+   app.get('/car/:id', cors(corsOptions), async (req, res) => {
+    const {id} = req.params;
+    let result = await con.query('SELECT * FROM car  where car_id=?',[id])
+    console.log(result[0])
+    res.send(result[0])
+    
+   })
+// get make cars?make=Ford
 
-   app.get('/car', cors(corsOptions), async (req, res) => {
-    let result = await con.query('SELECT * FROM car  where car_id=6')
+// app.get('/car/:make', cors(corsOptions), async (req, res) => {
+// const make = req.params.make;
+//  let result = await con.query('SELECT * FROM car where make=?', [make])
+// console.log(result[0])
+// res.send(result[0])
+// })
+// Ex 4 ---POST
+
+   app.post('/car/', cors(corsOptions), async (req, res) => {
+    const { model, make, color, price } = req.body;
+    let result = await con.query(
+        'INSERT INTO car (model, make, color, price) VALUES ("Corolla", "Toyota", "Gray", "30000")'
+        
+      );
     console.log(result[0])
     res.send(result[0])
     
